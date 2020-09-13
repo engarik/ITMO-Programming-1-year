@@ -1,5 +1,5 @@
-/* Kornilov Nikita, M3102, 10.09.2020, lab 1, var. 8*/
-#include <stdio.h>
+/* Kornilov Nikita, M3102, 10.09.2020, lab 1, var. 8 */
+#include <stdio.h> 
 
 void main( void ) {
 	int integer = 0, input;

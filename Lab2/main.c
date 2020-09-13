@@ -1,4 +1,4 @@
-/* Kornilov Nikita, M3102, 10.09.2020, lab 2, var. 8*/
+/* Kornilov Nikita, M3102, 10.09.2020, lab 2, var. 8 */
 #include <stdio.h>
 #include <math.h>
 
