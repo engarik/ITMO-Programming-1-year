@@ -1,6 +1,9 @@
 # Программирование
 
 ## 1 семестр
+
+[Условия](https://drive.google.com/drive/folders/1G5FEvnBCm4mHrxmkrewrCymDLE77PDVc?usp=sharing)
+
 ### Блок 1
 * [Лабораторная работа №1](Lab1/main.c)
 * [Лабораторная работа №2](Lab2/main.c)
