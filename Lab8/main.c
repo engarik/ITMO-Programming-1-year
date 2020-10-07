@@ -1,4 +1,5 @@
-/* Kornilov Nikita, M3102, 5.10.2020, lab 7, var. 8 */
+/* Kornilov Nikita, M3102, 5.10.2020, lab 8, var. 8 */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -16,10 +17,12 @@ int main(void) {
     printf("Concatenation: %s\n", strcat(tmp, string2));
     
     int cmpResult = strcmp(string1, string2);
-    if (cmpResult != 0)
+    if (cmpResult != 0) {
     	printf("%s string is bigger\n", cmpResult > 0 ? "First" : "Second");
-    else
+	}
+    else {
     	printf("Strings are identical\n");
+	}
     	
     	
     char c;
@@ -27,38 +30,47 @@ int main(void) {
     scanf("%c", &c);
     
     char* charPos = strchr(string1, c);
-    if (charPos == NULL)
+    if (charPos == NULL) {
     	printf("No such character in first string\n");
-    else
+	}
+    else {
     	printf("Pos of char in first string: %d\n", charPos - string1);
+	}
     	
     charPos = strchr(string2, c);
-    if (charPos == NULL)
+    if (charPos == NULL) {
     	printf("No such character in second string\n");
-    else
+	}
+    else {
     	printf("Pos of char in second string: %d\n", charPos - string2);
+	}
     	
     	
     	
     char* stringPos = strstr(string1, string2);
-    if (stringPos == NULL)
+    if (stringPos == NULL) {
     	printf("No second string in first\n");
-    else
+	}
+    else {
     	printf("Pos of second string in first: %d\n", stringPos - string1);
+	}
 
 
 	int i, mlen = 0, clen = 0;
 	for (i = 0; i < strlen(string1); i++) {
 		char* charPos = strchr(string2, string1[i]);
-		if (charPos == NULL)
+		if (charPos == NULL) {
 			clen++;
+		}
 		else {
-			if (clen > mlen)
+			if (clen > mlen) {
 				mlen = clen;
+			}
 			clen = 0;
 		}
-		if (i == strlen(string1) - 1 && clen > mlen)
+		if (i == strlen(string1) - 1 && clen > mlen) {
 				mlen = clen;
+		}
 	}
 	printf("Max length of fs segment without second is: %d\n", mlen);
 	

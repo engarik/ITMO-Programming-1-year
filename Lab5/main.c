@@ -13,24 +13,24 @@ int main(void) {
 	int matrix2[2][2] = {{1, 2}, {3, 1}};
 	int matrixResult[2][2];
 	
-	for (i = 0; i < arraySize; i++)
+	for (i = 0; i < arraySize; i++) {
 		printf("%i ", array[i]);
+	}
 	printf("\n");
 	
-	for (i = 0; i < n; i++)
-	{
-		for (j = 0; j < n; j++)
-		{
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
 			matrixResult[i][j] = 0;
-	        for(k = 0; k < n; k++)
+	        for (k = 0; k < n; k++) {
 	            matrixResult[i][j] += matrix1[i][k] * matrix2[k][j];
+			}
     	}
 	}
 	
-	for (i = 0; i < n; i++)
-	{
-		for (j = 0; j < n; j++)
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
 			printf("%i ", matrixResult[i][j]);
+		}
 		printf("\n");
 	}
 		

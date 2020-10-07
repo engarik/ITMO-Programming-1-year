@@ -8,22 +8,26 @@ int main(void) {
     int arrayA[n];
     int i, j;
 
-    for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++) {
         scanf("%i", &arrayA[i]);
+	}
 
     printf("Your array: ");
-    for(i = 0; i < n; i++)
+    for(i = 0; i < n; i++) {
         printf("%i ", *(arrayA + i));
+	}
     printf("\n");
 
     int *arrayB;
-    arrayB = (int*)malloc(n * sizeof(char));
-    for (i = 0; i < n; i++)
+    arrayB = (int*)malloc(n * sizeof(int));
+    for (i = 0; i < n; i++) {
         scanf("%i", &arrayB[i]);
+	}
 
     printf("Your array: ");
-    for(i = 0; i < n; i++)
+    for(i = 0; i < n; i++) {
         printf("%i ", *(arrayB + i));
+	}
 	printf("\n");
 	
     free(arrayB);
