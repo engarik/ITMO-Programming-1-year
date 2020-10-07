@@ -13,43 +13,43 @@ int main(void) {
 	
 	switch (n) {
 		case 0: {
-			string = "Ноль";
+			string = "Zero";
 			break;
 		}
 		case 1: {
-			string = "Один";
+			string = "One";
 			break;
 		}
 		case 2: {
-			string = "Два";
+			string = "Two";
 			break;
 		}
 		case 3: {
-			string = "Три";
+			string = "Three";
 			break;
 		}
 		case 4: {
-			string = "Четыре";
+			string = "Four";
 			break;
 		}
 		case 5: {
-			string = "Пять";
+			string = "Five";
 			break;
 		}
 		case 6: {
-			string = "Шесть";
+			string = "Six";
 			break;
 		}
 		case 7: {
-			string = "Семь";
+			string = "Seven";
 			break;
 		}
 		case 8: {
-			string = "Восемь";
+			string = "Eight";
 			break;
 		}
 		case 9: {
-			string = "Девять";
+			string = "Nine";
 			break;
 		}
 	}
