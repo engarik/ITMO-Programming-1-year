@@ -1,7 +1,6 @@
 /* Kornilov Nikita, M3102, 7.10.2020, lab 11, var. 8 */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include "regularTriangle.h"
 
 int main( void ) {

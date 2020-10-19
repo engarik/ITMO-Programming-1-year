@@ -1,6 +1,5 @@
 #ifndef H_REGULARTRIANGLE
 #define H_REGULARTRIANGLE
-#include "math.h"
 
 typedef struct {
     float x1, y1;
