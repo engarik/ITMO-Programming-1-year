@@ -52,6 +52,10 @@ int main(void) {
 			string = "Nine";
 			break;
 		}
+		default: {
+			string = "Something went wrong";
+			break;
+		}
 	}
 	printf("%i is %s\n", n, string);
 	
