@@ -6,7 +6,7 @@
 
 int main( void ) {
 
-    struct RegularTriangle triangle;
+    RegularTriangle triangle;
 
     printf("Input (.)A coordinates:  ");
     scanf("%f %f", &triangle.x1, &triangle.y1);
