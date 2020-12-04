@@ -1,5 +1,5 @@
-#ifndef H_REGULARTRIANGLE
-#define H_REGULARTRIANGLE
+#ifndef REGULARTRIANGLE_H
+#define REGULARTRIANGLE_H
 
 typedef struct {
     float x1, y1;
