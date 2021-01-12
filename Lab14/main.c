@@ -50,7 +50,7 @@ void parseArgs(int argc, char *argv[], char** inputFileName, char** outputDirNam
 			else if (!strcmp(argv[i], "--dump_freq")) {
 				i++;
             	*dumpFreq = atol(argv[i]);
-				if (argv[i][0] == '-' || *dumpFreq > *maxIter) {
+				if (argv[i][0] == '-' || (*dumpFreq > *maxIter && *maxIter != -1)) {
 					throwError("dump_freq can't be negative or more than max_iter");
 				}
 			} else {
@@ -103,15 +103,9 @@ union bmpHeader {
 int** mapAlloc(int width, int height) {
 	int i;
     int **map = (int **)malloc(height * sizeof(int *));
-    if (map == NULL) {
-		perror("Error while allocating map");
-	}
     
     for (i = 0; i < height; i++) {
         map[i] = (int *)malloc(width * sizeof(int));
-        if (map[i] == NULL) {
-			perror("Error while allocating map");
-		}
     }
     
     return map;
@@ -190,16 +184,16 @@ int** getMap(char* inputFileName, char* outputDirName, int* width, int* height, 
 		perror("Error while opening inputFile");
 	}
 	
-    if (!fread((*bmpHeader).buffer, sizeof(char), 62, inputFile)) {
+    if (!fread(bmpHeader->buffer, sizeof(char), 62, inputFile)) {
 		perror("Error reading file:");
 	}
 	
-	if ((*bmpHeader).data.biSize != 40 || (*bmpHeader).data.biClrUsed != 0 || (*bmpHeader).data.biBitCount != 1) {
+	if (bmpHeader->data.biSize != 40 || bmpHeader->data.biClrUsed != 0 || bmpHeader->data.biBitCount != 1) {
     	throwError("Trying to open not a monocrome .bmp file!");
     }
 
-    *width = (*bmpHeader).data.biWidth;
-    *height = (*bmpHeader).data.biHeight;
+    *width = bmpHeader->data.biWidth;
+    *height = bmpHeader->data.biHeight;
 
     int** map = mapAlloc(*width, *height);
 
@@ -260,10 +254,11 @@ void StartGame(int argc, char *argv[]) {
     
     dumpMap(map, bmpHeader, outputDirName, 0);
     
-    int i, dumps = 1;
+    char isPlaying = 1;
+	int i, dumps = 1;
     dumpMap(map, bmpHeader, outputDirName, 0);
     
-    for (i = 0; i < maxIter; i++) {
+    while (isPlaying) {
     	int** mapAlt = mapAlloc(width, height);
 		mapAlt = getNextMapGeneration(map, mapAlt, 
 		width, height);
@@ -273,7 +268,13 @@ void StartGame(int argc, char *argv[]) {
 		if (i % dumpFreq == 0) {
     		dumpMap(map, bmpHeader, outputDirName, dumps++);
 		}
+		if (maxIter != -1) {
+			maxIter--;
+			isPlaying = maxIter > 0 ? 1 : 0;
+		}
+		i++;
 	}
+	
 	mapFree(map, height);
 	printf("Game finished\nTotal dumps: %d", dumps);	
 }
