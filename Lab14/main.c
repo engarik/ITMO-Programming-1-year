@@ -182,14 +182,17 @@ int** getMap(char* inputFileName, char* outputDirName, int* width, int* height, 
 
 	if (inputFile == NULL) {
 		perror("Error while opening inputFile");
+		exit(-1);
 	}
 	
     if (!fread(bmpHeader->buffer, sizeof(char), 62, inputFile)) {
 		perror("Error reading file:");
+		exit(-1);
 	}
 	
 	if (bmpHeader->data.biSize != 40 || bmpHeader->data.biClrUsed != 0 || bmpHeader->data.biBitCount != 1) {
     	throwError("Trying to open not a monocrome .bmp file!");
+    	exit(-1);
     }
 
     *width = bmpHeader->data.biWidth;
@@ -280,6 +283,7 @@ void StartGame(int argc, char *argv[]) {
 }
 
 void main(int argc, char *argv[]) {
-	// --input input_file.bmp --output dir_name --max_iter 1 --dump_freq 1
+	// --input kek1.bmp --output out/ --max_iter 100 --dump_freq 1
+	// --input holo2.bmp --output out/ --max_iter 100 --dump_freq 1
 	StartGame(argc, argv);
 }
