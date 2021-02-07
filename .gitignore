@@ -3,9 +3,5 @@
 *.exe
 *.dev
 *.o
-*.bmp
-*.mp3
-*.txt
 *.arc
-*.md
 *.docx
