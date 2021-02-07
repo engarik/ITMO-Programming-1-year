@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
+#include <dir.h>
 
 #pragma pack(1)
 
@@ -275,6 +277,10 @@ void StartGame(int argc, char *argv[]) {
 			maxIter--;
 			isPlaying = maxIter > 0 ? 1 : 0;
 		}
+		if (
+			kbhit()) {
+			isPlaying = 0;
+		}
 		i++;
 	}
 	
@@ -284,6 +290,7 @@ void StartGame(int argc, char *argv[]) {
 
 void main(int argc, char *argv[]) {
 	// --input kek1.bmp --output out/ --max_iter 100 --dump_freq 1
-	// --input holo2.bmp --output out/ --max_iter 100 --dump_freq 1
+	// --input holo2.bmp --output out/ --max_iter 100 --dump_freq 5
+	// --input kek2.bmp --output out/ --dump_freq 5
 	StartGame(argc, argv);
 }
