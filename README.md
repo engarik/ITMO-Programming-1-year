@@ -2,7 +2,7 @@
 
 ## 1 семестр
 
-[Условия](https://drive.google.com/drive/folders/1G5FEvnBCm4mHrxmkrewrCymDLE77PDVc?usp=sharing)
+#### [Условия](https://drive.google.com/drive/folders/1G5FEvnBCm4mHrxmkrewrCymDLE77PDVc?usp=sharing)
 
 ### Блок 1
 * [Лабораторная работа №1](1-sem/Lab1/main.c)
@@ -26,4 +26,11 @@
 
 ## 2 семестр
 
-[Условия](#TODO)
+#### [Условия](https://drive.google.com/drive/folders/1jmmZsH7u3udkW3QCbpuSHM5DdE1D5TZW)
+
+* [Лабораторная работа №1 "ООП. Классы. Наследование"](2-sem/Lab1/main.c)
+* [Лабораторная работа №2 "Классы. Перегрузка операторов"](2-sem/Lab2/main.c)
+* [Лабораторная работа №3 "Анализ данных"](2-sem/Lab3/main.c)
+* [Лабораторная работа №4 "STL. Алгоритмы. Итераторы"](2-sem/Lab4/main.c)
+* [Лабораторная работа №5 "STL. Контейнеры"](2-sem/Lab5/main.c)
+* [Лабораторная работа №6 "Кубик Рубика"](2-sem/Lab6/main.c)
