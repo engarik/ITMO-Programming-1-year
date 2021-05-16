@@ -5,3 +5,8 @@
 *.o
 *.arc
 *.docx
+*/idea/
+cmake-build-debug	
+2-sem/Sent
+.idea
+CMakeLists.txt
