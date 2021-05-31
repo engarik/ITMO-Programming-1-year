@@ -58,7 +58,7 @@ void PolygonsCheck() {
     array[0] = new Polygon(3, a);
     array[1] = new Triangle(a);
     array[2] = new Trapezoid(b);
-    array[3] = new  RegularPolygon(new Point[4]{Point(0, 0), Point(0, 2), Point(2, 2), Point(2, 0)});
+    array[3] = new RegularPolygon(new Point[4]{Point(0, 0), Point(0, 2), Point(2, 2), Point(2, 0)});
 
     for (int i = 0; i < 4; i++) {
         cout << array[i]->getArea() << endl;
