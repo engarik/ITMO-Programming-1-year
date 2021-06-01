@@ -10,3 +10,5 @@ cmake-build-debug
 2-sem/Sent
 .idea
 CMakeLists.txt
+2-sem/Lab3/pugixml-1.11
+2-sem/Lab3/*.txt
