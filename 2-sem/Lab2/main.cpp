@@ -44,9 +44,5 @@ void PolynomialOperators() {
 int main() {
     checkOut();
     PolynomialOperators();
-
-    Polynomial p;
-    cin >> p;
-    cout << p;
     return 0;
 }

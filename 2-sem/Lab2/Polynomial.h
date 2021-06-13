@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <vector>
 
 #ifndef LAB2_POLYNOMIAL_H
 #define LAB2_POLYNOMIAL_H
@@ -73,6 +74,14 @@ bool operator==(const Term& lhs, const Term& rhs);
 
 bool operator!=(const Term& lhs, const Term& rhs);
 
+bool operator<(const Term& rhs, const Term& lhs);
+
+bool operator>(const Term& rhs, const Term& lhs);
+
+bool operator<=(const Term& rhs, const Term& lhs);
+
+bool operator>=(const Term& rhs, const Term& lhs);
+
 Term operator+(const Term& lhs, const Term& rhs);
 
 Term operator-(const Term& lhs, const Term& rhs);
@@ -86,77 +95,58 @@ Term operator*(const Term& lhs, const Term& rhs);
 class Polynomial {
 public:
     // Default constructor
-    explicit Polynomial(int minPower = 0, int maxPower = 0, const int * coefficients = nullptr)
-    : minPower(minPower), maxPower(maxPower) {
-        termsNumber = (this->maxPower - this->minPower + 1);
-        assert(termsNumber >= 1);
-        this->terms = new Term[termsNumber];
+    explicit Polynomial(int minPower = 0, int maxPower = 0, const int * coefficients = nullptr) {
+        int termsNumber = maxPower - minPower + 1;
+        if (termsNumber < 1) throw std::invalid_argument("You should pass at least 1 argument");
 
         if (coefficients != nullptr) {
             for (int i = 0; i < termsNumber; ++i) {
-                this->terms[i] = Term(coefficients[i], minPower + i);
+                if (coefficients[i] != 0) terms.emplace_back(coefficients[i], minPower + i);
             }
         } else {
-            this->terms[0] = Term();
+            terms.emplace_back();
         }
     }
 
     // Copy constructor
-    Polynomial(const Polynomial& other)
-            : minPower(other.minPower), maxPower(other.maxPower), termsNumber(other.termsNumber), terms(new Term[other.termsNumber])
-    {
-        for (int i = 0; i < termsNumber; ++i) {
-            terms[i] = other.terms[i];
-        }
-    }
+    Polynomial(const Polynomial& other) = default;
 
     // Copy-assign operator
     Polynomial& operator=(const Polynomial& other) {
         if (this != &other) {
-            delete [] terms;
-            minPower = other.minPower;
-            maxPower = other.maxPower;
-            termsNumber = other.termsNumber;
-            terms = new Term[termsNumber];
-            for (int i = 0; i < termsNumber; ++i) {
-                terms[i] = other.terms[i];
-            }
+            terms = other.terms;
         }
-
         return *this;
     }
 
     // Some methods
     int getTermsNumber() const {
-        return termsNumber;
+        return terms.size();
     }
 
     Term getTerm(int power) const {
-        if (power <= maxPower && power >= minPower) {
-            return terms[power - minPower];
-        } else {
-            return Term(0, power);
+        for (auto & term : terms) {
+            if (term.getPower() == power) return term;
         }
+        return Term(0, power);
     }
 
-    bool containsTerm(int power) const {
-        return power <= maxPower && power >= minPower;
+    int getTermPosition(int power) const {
+        for (int i = 0; i < terms.size(); i++) {
+            if (terms[i].getPower() == power) return i;
+        }
+        return -1;
     }
 
     bool isZero() const {
-        return termsNumber == 1 && terms[0] == Term();
-    }
-
-    void updateTermsNumber() {
-        termsNumber = maxPower - minPower + 1;
+        return terms.size() == 1 && terms[0] == Term();
     }
 
     double get(int value) {
         double res = 0;
-        for (int i = 0; i < termsNumber; ++i) {
-            res += terms[i].getCoeff() * pow(value,terms[i].getPower());
+        for (auto & term : terms) {
+            res += term.getCoeff() * pow(value,term.getPower());
         }
-
         return res;
     }
 
@@ -197,8 +187,7 @@ public:
     friend Polynomial operator/(const Polynomial& lhs, int rhs);
 
 private:
-    int minPower, maxPower, termsNumber;
-    Term * terms;
+    vector<Term> terms;
 };
 
 // as-function-operators headers

@@ -71,6 +71,22 @@ bool operator!=(const Term& lhs, const Term& rhs) {
     return !(lhs == rhs);
 }
 
+bool operator<(const Term& rhs, const Term& lhs) {
+    return rhs.getPower() < lhs.getPower();
+}
+
+bool operator>(const Term& rhs, const Term& lhs) {
+    return rhs.getPower() > lhs.getPower();
+}
+
+bool operator<=(const Term& rhs, const Term& lhs) {
+    return rhs < lhs || rhs == lhs;
+}
+
+bool operator>=(const Term& rhs, const Term& lhs) {
+    return rhs > lhs || rhs == lhs;
+}
+
 // as-function-operators implementation
 
 Term operator+(const Term& lhs, const Term& rhs) {
@@ -104,8 +120,8 @@ Term operator/(const Term& lhs, int rhs) {
 Polynomial Polynomial::operator-() const {
     Polynomial tmp = *this;
 
-    for (int i = 0; i < tmp.termsNumber; ++i) {
-        tmp.terms[i] = -tmp.terms[i];
+    for (auto & term : tmp.terms) {
+        term = -term;
     }
 
     return tmp;
@@ -153,11 +169,11 @@ string getSign(const Term &term, bool isFirst) {
 }
 
 ostream& operator<<(ostream& stream, const Polynomial& polynomial) {
-    for (int i = 0; i < polynomial.termsNumber; ++i) {
-        const Term& cur = polynomial.terms[polynomial.termsNumber - i - 1];
+    for (int i = 0; i < polynomial.terms.size(); ++i) {
+        const Term& cur = polynomial.terms[polynomial.terms.size() - i - 1];
         if (cur.getPower() != 0 || cur.getCoeff() != 0) {
             stream << getSign(cur, i == 0) << cur;
-        } else if (polynomial.termsNumber == 1) {
+        } else if (polynomial.terms.size() == 1) {
             stream << cur;
         }
     }
@@ -194,12 +210,32 @@ bool operator!=(const Polynomial& lhs, const Polynomial& rhs) {
 }
 
 Polynomial operator+(const Polynomial& lhs, const Polynomial& rhs) {
-    int min = std::min(lhs.minPower, rhs.minPower), max = std::max(lhs.maxPower, rhs.maxPower);
+    Polynomial res = Polynomial();
+    res.terms.clear();
 
-    Polynomial res = Polynomial(min, max);
+    int lPos = 0, rPos = 0;
 
-    for (int i = min; i <= max;i++) {
-        res.terms[i - min] = lhs.getTerm(i) + rhs.getTerm(i);
+    while (lPos < lhs.terms.size() || rPos < rhs.terms.size()) {
+        if (lhs.terms[lPos].getPower() == rhs.terms[rPos].getPower()) {
+            res.terms.push_back(lhs.terms[lPos] + rhs.terms[rPos]);
+            ++lPos; ++rPos;
+        } else if (lhs.terms[lPos].getPower() > rhs.terms[rPos].getPower()) {
+            res.terms.push_back(rhs.terms[rPos]);
+            ++rPos;
+        } else {
+            res.terms.push_back(lhs.terms[lPos]);
+            ++lPos;
+        }
+    }
+
+    while (lPos < lhs.terms.size()) {
+        res.terms.push_back(lhs.terms[lPos]);
+        ++lPos;
+    }
+
+    while (rPos < rhs.terms.size()) {
+        res.terms.push_back(rhs.terms[rPos]);
+        ++rPos;
     }
 
     return res;
@@ -207,44 +243,16 @@ Polynomial operator+(const Polynomial& lhs, const Polynomial& rhs) {
 
 Polynomial operator+(const Polynomial& lhs, const Term& rhs) {
     Polynomial res = lhs;
-    if (lhs.containsTerm(rhs.getPower())) {
-        res.terms[rhs.getPower() - res.minPower] += rhs;
-    } else {
-        int oldTermsNumber = lhs.termsNumber;
-        Term * tmp = new Term[oldTermsNumber];
 
-        for (int i = 0; i < oldTermsNumber; ++i) {
-            tmp[i] = lhs.terms[i];
+    if (rhs.getCoeff() != 0) {
+        int pos = res.getTermPosition(rhs.getPower());
+
+        if (pos != -1) {
+            res.terms[pos] += rhs;
+        } else {
+            res.terms.push_back(rhs);
+            std::sort(res.terms.begin(), res.terms.end());
         }
-
-        int offset = 0, pos = 0;
-
-        if (rhs.getPower() > lhs.maxPower) {
-            if (lhs.isZero()) {
-                res.minPower = rhs.getPower();
-            }
-            res.maxPower = rhs.getPower();
-            pos = rhs.getPower() - res.minPower;
-        } else if (rhs.getPower() < lhs.minPower) {
-            offset = lhs.minPower - rhs.getPower();
-            if (lhs.isZero()) {
-                res.maxPower = rhs.getPower();
-            }
-            res.minPower = rhs.getPower();
-        }
-
-        res.updateTermsNumber();
-
-        delete [] res.terms;
-        res.terms = new Term[res.termsNumber];
-
-        for (int i = 0; i < oldTermsNumber; ++i) {
-            res.terms[i + offset] = tmp[i];
-        }
-
-        res.terms[pos] = rhs;
-
-        delete [] tmp;
     }
 
     return res;
@@ -261,21 +269,21 @@ Polynomial operator*(const Polynomial& lhs, const Polynomial& rhs) {
         return res;
     }
 
-    for (int i = 0; i < lhs.termsNumber; ++i) {
-        Term cur = lhs.terms[i];
-
-        for (int j = 0; j < rhs.termsNumber; ++j) {
-            res += rhs.terms[j] * cur;
+    for (auto lTerm : lhs.terms) {
+        for (auto rTerm : rhs.terms) {
+            res += lTerm * rTerm;
         }
     }
+
+    std::sort(res.terms.begin(), res.terms.end());
 
     return res;
 }
 
 Polynomial operator*(const Polynomial& lhs, int rhs) {
     Polynomial res = lhs;
-    for (int i = 0; i < lhs.termsNumber; ++i) {
-        res.terms[i] *= rhs;
+    for (auto & term : res.terms) {
+        term *= rhs;
     }
 
     return res;
@@ -287,8 +295,8 @@ Polynomial operator*(int lhs, const Polynomial& rhs) {
 
 Polynomial operator/(const Polynomial& lhs, int rhs) {
     Polynomial res = lhs;
-    for (int i = 0; i < lhs.termsNumber; ++i) {
-        res.terms[i] /= rhs;
+    for (auto & term : res.terms) {
+        term /= rhs;
     }
 
     return res;
